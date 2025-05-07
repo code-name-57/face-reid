@@ -1,0 +1,65 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\kanie> conda create --name virtualenv python=3.8
+Channels:
+ - defaults
+Platform: win-64
+Collecting package metadata (repodata.json): done
+Solving environment: done
+
+## Package Plan ##
+
+  environment location: C:\Users\kanie\anaconda3\envs\virtualenv
+
+  added / updated specs:
+    - python=3.8
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    pip-24.2                   |   py38haa95532_0         2.4 MB
+    python-3.8.20              |       h8205438_0        19.4 MB
+    setuptools-75.1.0          |   py38haa95532_0         1.6 MB
+    vc-14.42                   |       haa95532_5          11 KB
+    vs2015_runtime-14.42.34433 |       hbfb602d_5         1.2 MB
+    wheel-0.44.0               |   py38haa95532_0         137 KB
+    ------------------------------------------------------------
+                                           Total:        24.7 MB
+
+The following NEW packages will be INSTALLED:
+
+  ca-certificates    pkgs/main/win-64::ca-certificates-2025.2.25-haa95532_0
+  libffi             pkgs/main/win-64::libffi-3.4.4-hd77b12b_1
+  openssl            pkgs/main/win-64::openssl-3.0.16-h3f729d1_0
+  pip                pkgs/main/win-64::pip-24.2-py38haa95532_0
+  python             pkgs/main/win-64::python-3.8.20-h8205438_0
+  setuptools         pkgs/main/win-64::setuptools-75.1.0-py38haa95532_0
+  sqlite             pkgs/main/win-64::sqlite-3.45.3-h2bbff1b_0
+  vc                 pkgs/main/win-64::vc-14.42-haa95532_5
+  vs2015_runtime     pkgs/main/win-64::vs2015_runtime-14.42.34433-hbfb602d_5
+  wheel              pkgs/main/win-64::wheel-0.44.0-py38haa95532_0
+
+
+Proceed ([y]/n)? y
+
+
+Downloading and Extracting Packages:
+
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+#
+# To activate this environment, use
+#
+#     $ conda activate virtualenv
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+PS C:\Users\kanie>
