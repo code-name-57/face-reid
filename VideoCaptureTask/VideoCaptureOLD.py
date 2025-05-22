@@ -10,19 +10,8 @@ from PIL import Image
 ####################################
 
 ####################################
-# REMOVE ANY SAVED DATA
-# (can comment out if needed)
-import shutil 
-pathToDelete = r"C:\Users\kanie\face-reid\VideoCaptureTask\People"
-shutil.rmtree( pathToDelete )
-ReCreatePath = r"C:\Users\kanie\face-reid\VideoCaptureTask\People"
-os.makedirs( ReCreatePath )
-####################################
-
-
-####################################
 # OPEN VIDEO
-video = cv2.VideoCapture(r"C:\Users\kanie\face-reid\VideoCaptureTask\B99Clip.mp4") 
+video = cv2.VideoCapture(r"C:\Users\kanie\face-reid\VideoCaptureTask\HomeAloneClip.mp4") 
     # need to add 'r' to ensure backslash isn't used as escape character
 
 
@@ -40,19 +29,14 @@ else:
 
 ####################################
 # VARIABLE DEFINITIONS
-
-# Changeable
-ppl_folder = r"C:\Users\kanie\face-reid\VideoCaptureTask\People"
-lower_threshold = 0.12
-
-# Pre-Defined
 frameNum = 1            # Total Number of Frames
 faceNum = 0             # Total Number of Faces From All Frames
 uniquePersonNum = 0     # Total Number of Unique Faces
 appearancesArray = []   # Number of Appearances from Each Unique Face
 appearancesSaved = []   # Number of Apearances Saved of Each Unique Face
+
+ppl_folder = r"C:\Users\kanie\face-reid\VideoCaptureTask\People"
 newPerson = True    # Boolean used to check whether a new unique person has been detected
-finishCompare = False
 
 ####################################
 # GO THROUGH VIDEO
@@ -67,7 +51,6 @@ while(video.isOpened()):
             faces = DeepFace.extract_faces( frame )
             for i, face_dict in enumerate(faces): # loop through ever dictionary in list
                 newPerson = True
-                finishCompare = False
                 faceNum += 1
                 print("Face #", faceNum, " in Frame Number", frameNum, "Detected!")
                 imageToSave = face_dict["face"]
@@ -79,58 +62,35 @@ while(video.isOpened()):
 
                 ####################################
                 # GO THROUGH FILE SYSTEM
-                    # Note: commented out print-statements to save execution time but left in just in case
 
                 # Iterate over folders in directory
                 for personNum in os.listdir(ppl_folder):
-
-                    # Check if can skip ahead (based on prev. loop-runs)
-                    if finishCompare == True:
-                        break
-
                     # Get Path of PersonX subfolder
                     person_folder = os.path.join(ppl_folder, str(personNum) )
-                    print(f"Reading Folder: {person_folder}")
+                    if os.path.isdir(person_folder):
+                        images = os.listdir(person_folder)
+                        first_img = images[0]
+                        image_path = os.path.join(person_folder, first_img)
 
-                    if os.path.isdir(person_folder):    # to confirm looking at a folder, not some file
-                        images = os.listdir(person_folder)  # get all images in folder in array
-                        toAddImage = False
+                        # Use OpenCV to read & display images
+                        print(f"Reading Folder: {image_path}")
+                        img_in_folder = cv2.imread( image_path )
 
-                        # Loop through images in folder for comparisions
                         print("Comparing...")
-                        for x in range(len(images)):
-                            print("Comparing w Image ", str(x+1))
-                            image_path = os.path.join(person_folder, images[x])
-
-                            # Use OpenCV to read & display images
-                            img_in_folder = cv2.imread( image_path )
-                        
-                            compare = DeepFace.verify( img_in_folder, imageToSave )
-                            # COMPARISIONS
-                            # Check if Same Person as image in folder
-                            if compare['distance'] < compare['threshold']:
-                                newPerson = False
-                                # Check if below lower-threshold (aka too similar to save)
-                                if compare['distance'] < lower_threshold:
-                                    print("Person Detected BUT Below Lower Threshold!")
-                                    print()
-                                    finishCompare = True
-                                    toAddImage = False
-                                    break
-                                # Within upper & lower thresholds amd compared w other images in folder too
-                                else: 
-                                    toAddImage = True
-                            else:
-                                print("Moving onto next image!")
-                                print()
-                        
-                        if toAddImage == True:
-                            # Add Image to Folder
+                        compare = DeepFace.verify( img_in_folder, imageToSave )
+                        # Check if same person
+                        if compare['distance'] < compare['threshold']:
+                            # Add Image to Folder for now (deal w lower threshold after)
                             newImagePath = person_folder + r"\Face" + str(faceNum) + ".jpg"
                             cv2.imwrite( newImagePath, imageToSave)
                             print("Added Person to Existing Folder!")
+                            print("")
+                            newPerson = False
+                            break
                         else:
                             print("Person not added to Folder!")
+                            print("Moving onto next folder!")
+                            print("")
                         
                 # Need to Add New Folder for New Person
                 if newPerson == True:
@@ -177,20 +137,15 @@ print("Total Unique Faces: ", uniquePersonNum)
 # -> Extract faces from each frame
 # -> Save to a faces folder
 # -> Have a sub-folder for each  person
+# 
+# To-Do:
 # -> Get a hold of lower threshold limits (e.g. use deepface on saved images)
 # -> Be selective about faces (really use Deepface)
 #   -> Use face recognition/verify on each frame
 #   -> Only save it if within upper + lower threshold
-# 
-# Potentially In The Future (for this specific version):
-# -> Re-write cleaner and more concise/shorter
-# -> Add an extra layer of checking for valid images
-#   -> e.g. what happened w the B99 clip
-# -> Increase Accuracy (not just HAC)
-# -> Re-try to the SkipThreshold
-# -> Decrease execution time
-#   -> e.g. compare w previous frames/faces first (which is more likely to be similar)
-#   -> tweak the thresholds more
-# -> Use embeddings instead of raw images (for privacy and ease)
+#
+# In Future
+# -> Save faces in a proper database instead
+# -> Use embeddings instead of raw images (for privacy)
 #
 ####################################
