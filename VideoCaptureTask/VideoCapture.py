@@ -182,7 +182,7 @@ print("Total Unique Faces: ", uniquePersonNum)
 #   -> Use face recognition/verify on each frame
 #   -> Only save it if within upper + lower threshold
 # 
-# Potentially In The Future (for this specific version):
+# In The Future (for this specific version):
 # -> Re-write cleaner and more concise/shorter
 # -> Add an extra layer of checking for valid images
 #   -> e.g. what happened w the B99 clip
@@ -192,5 +192,6 @@ print("Total Unique Faces: ", uniquePersonNum)
 #   -> e.g. compare w previous frames/faces first (which is more likely to be similar)
 #   -> tweak the thresholds more
 # -> Use embeddings instead of raw images (for privacy and ease)
+# -> STATS!! (in nice visuals, use matplotlib.py ?)
 #
 ####################################
