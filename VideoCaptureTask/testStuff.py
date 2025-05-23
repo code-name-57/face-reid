@@ -68,6 +68,41 @@ imgTest2 = r"C:\Users\kanie\face-reid\VideoCaptureTask\People\Person11\Face95.jp
 compare = DeepFace.verify( imgTest1, imgTest2 )
 print( compare )
 
+####################################
+# EMBEDDING TEST
+
+### Using DeepFace.Verify doesn't work ###
+
+# img1 = r"C:\Users\kanie\face-reid\VideoCaptureTask\img1.jpg"
+# img2 = r"C:\Users\kanie\face-reid\VideoCaptureTask\img2.jpg"
+
+# embedded1 = DeepFace.represent(img_path = img1)
+# embedded2 = DeepFace.represent(img_path = img2)
+
+# # compare = DeepFace.verify( embedded1, embedded2 ) --> doesn't work
+
+### Using Cosine Distance works, and yields same results ###
+
+# def cosine_distance(vec1, vec2):
+#     vec1 = np.array(vec1)
+#     vec2 = np.array(vec2)
+#     return 1 - np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
+
+# img1 = r"C:\Users\kanie\face-reid\VideoCaptureTask\img1.jpg"
+# img2 = r"C:\Users\kanie\face-reid\VideoCaptureTask\img2.jpg"
+
+# embedded1 = DeepFace.represent(img_path = img1)[0]["embedding"]
+# embedded2 = DeepFace.represent(img_path = img2)[0]["embedding"]
+
+# cos_dist = cosine_distance( embedded1, embedded2 )
+# df_dist = DeepFace.verify( img1, img2 )["distance"]
+
+
+# print( cos_dist )
+# print( df_dist )
+
+####################################
+
 # imgTest = r"C:\Users\kanie\face-reid\VideoCaptureTask\img1.jpg"
 
 # try:
